@@ -1,6 +1,6 @@
-runPoints=1000;
-pairsPoints=500;
-
+var runPoints=1000;
+var pairsPoints=500;
+var diceUnicode=['🎲','⚀','⚁','⚂','⚃','⚄', '⚅'];
 
 
 
@@ -19,7 +19,8 @@ function arraysEqual(a, b) { //javascript doesn't let you directly compare array
 var evalPoints=function(diceArr){
 	var points=0;
 	var scoringDice=0;
-	freqArr=[0,0,0,0,0,0,0];//inefficient to leave the 0 index unused but I'd prefer not to have to subtract 1 all over this code
+    var pyramid=false;
+	var freqArr=[0,0,0,0,0,0,0];//inefficient to leave the 0 index unused but I'd prefer not to have to subtract 1 all over this code
 	for (var i=0; i<diceArr.length; i++){
 		freqArr[diceArr[i]]++;
 	}
@@ -33,10 +34,10 @@ var evalPoints=function(diceArr){
 	if (freqArr[1] >=3){
 		points+=1000 * (Math.pow(2, freqArr[1]-3));
 		scoringDice+=freqArr[1];
-		}
+    }
 		
 	
-	for (var i=2; i<freqArr.length; i++){ //three of a kind or greater, other numbers
+	for (i=2; i<freqArr.length; i++){ //three of a kind or greater, other numbers
 		if (freqArr[i] >=3){
 			points+=i*100 * (Math.pow(2, freqArr[i]-3));
 			scoringDice+=freqArr[i];
@@ -65,14 +66,14 @@ var evalPoints=function(diceArr){
 	
 	
 	
-	//special scenarios where all six dice score. These override any standard scoring.
+	//special scenarios. These override any standard scoring.
 	if (arraysEqual(freqArr,[0,1,1,1,1,1,1])){  //123456
 		points=runPoints;
 		scoringDice=6;
-		};
+		}
 
 	var pairs=0;  //three pairs	
-	for (var i=0; i<freqArr.length; i++){
+	for (i=0; i<freqArr.length; i++){
 		if (freqArr[i]==2){pairs++}		
 	}
 	if (pairs==3){
@@ -86,9 +87,43 @@ var evalPoints=function(diceArr){
 	
 }
 
-var myRoll=[1,1,1,1] //the outcomes of a dice roll
-var results=evalPoints(myRoll); //an array representing 
 
-console.log(results); //should be 350
+var rollDice=function(){
+    return(Math.floor(Math.random() * 6) + 1);
+}
 
-if (results.scoringDice==6){console.log ("HOT DICE!")};
+
+var randomRoll=function(){
+    
+     var myRoll=[] //the outcomes of a dice roll
+
+    //var diceToRoll=Math.floor(Math.random() * 6)+1;
+     var diceToRoll=6;
+    for(var i=0; i<diceToRoll; i++){
+        myRoll.push(rollDice());
+    }
+    
+    myRoll.sort((a,b)=>a-b); //for visual asthetics ONLY. Not needed.
+
+    var diceString='';
+
+    for (var i=0; i<myRoll.length; i++){
+        diceString+=diceUnicode[myRoll[i]];   
+    }
+
+    
+
+    var results=evalPoints(myRoll); //an array representing 
+
+    if (results.scoringDice==6){hotDice="HOT DICE!";}else{hotDice="";}
+    
+    console.log(diceString, results, hotDice); 
+
+    
+
+    
+    
+}
+
+randomRoll();
+setInterval(randomRoll,2000);
