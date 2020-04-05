@@ -19,7 +19,7 @@ function arraysEqual(a, b) { //javascript doesn't let you directly compare array
 var evalPoints=function(diceArr){
 	var points=0;
 	var scoringDice=0;
-    var pyramid=false;
+    var pyramidPoint=false;
 	var freqArr=[0,0,0,0,0,0,0];//inefficient to leave the 0 index unused but I'd prefer not to have to subtract 1 all over this code
 	for (var i=0; i<diceArr.length; i++){
 		freqArr[diceArr[i]]++;
@@ -27,8 +27,7 @@ var evalPoints=function(diceArr){
 	
 	//console.log(freqArr);
 
-	
-	
+    
 	//--------- mixed possibilities
 	
 	if (freqArr[1] >=3){
@@ -81,9 +80,18 @@ var evalPoints=function(diceArr){
 		scoringDice=6;
 	}
 	
+    var pyramid=[false,false,false];
+    for (i=0; i<freqArr.length; i++){ //pyramid points, which... don't worry about it
+		
+        if (freqArr[i] ==1){pyramid[0]=true}
+        if (freqArr[i] ==2){pyramid[1]=true}
+        if (freqArr[i] ==3){pyramid[2]=true}
+	}
+    
 	
-	
-	return {points:points,scoringDice:scoringDice};
+    if (pyramid[0] && pyramid[1] && pyramid[2] && points>0){pyramidPoint=true} else{pyramidPoint=false}
+    
+	return {points:points, scoringDice:scoringDice, pyramidPoint:pyramidPoint};
 	
 }
 
@@ -103,6 +111,7 @@ var randomRoll=function(){
         myRoll.push(rollDice());
     }
     
+    //myRoll=[1,1,1,2,2,3];
     myRoll.sort((a,b)=>a-b); //for visual asthetics ONLY. Not needed.
 
     var diceString='';
@@ -115,10 +124,15 @@ var randomRoll=function(){
 
     var results=evalPoints(myRoll); //an array representing 
 
-    if (results.scoringDice==6){hotDice="HOT DICE!";}else{hotDice="";}
+    if (results.scoringDice==myRoll.length){hotDice="HOT DICE! ";}
+    else if(results.scoringDice==0){hotDice="BUST-A-RINO! ";}
+    else{hotDice="";}
     
-    console.log(diceString, results, hotDice); 
-
+    if (results.pyramidPoint==true){hotDice += '△';}
+    
+    //if (results.pyramidPoint==true){
+    console.log(diceString, results.points, " points\t" + results.scoringDice + " dice scored\t", hotDice); 
+    //}
     
 
     
@@ -126,4 +140,4 @@ var randomRoll=function(){
 }
 
 randomRoll();
-setInterval(randomRoll,2000);
+setInterval(randomRoll,1000);
