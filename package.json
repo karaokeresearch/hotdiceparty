@@ -1,0 +1,9 @@
+{
+  "name": "hot-dice-party",
+  "version": "0.0.1",
+  "description": "Hot dice (aka Farkle) browser game",
+  "dependencies": {
+    "express": "*",
+    "socket.io": "*"
+  }
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <script src="jquery-3.5.0.min.js"></script>
+    <script src="hotdice.js"></script>
+    <meta charset="utf-8">
+
+  <title>Hot Dice UI demo</title>
+  
+  <link rel="stylesheet" href="styles.css?v=1.0">
+
+</head>
+
+<body>
+
+<script>
+        
+$( document ).ready(function() {
+    var totalDice=6;
+    for (var i=0; i<totalDice; i++){
+        $("#diceholder").append('<div id="d ' + i+ '"class="dice" style="left:' + (40+ (i*15)) + 'vh">' + diceUnicode[rollDice()] + '</div>')
+    }
+    
+    
+    $( ".dice" ).on( "click", function() {
+        $( this ).animate({top: "80vh"},500);
+        console.log($( this ));
+    });
+    
+    
+    
+})
+    
+    
+</script>
+<div id="diceholder">
+    
+</div>
+</body>
+</html>

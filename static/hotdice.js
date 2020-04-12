@@ -139,5 +139,7 @@ var randomRoll=function(){
     
 }
 
-randomRoll();
-setInterval(randomRoll,1000);
+//uncomment to just run rolls over and over again
+
+//randomRoll();
+//setInterval(randomRoll,1000);

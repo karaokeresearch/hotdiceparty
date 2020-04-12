@@ -1,0 +1,13 @@
+.dice {
+    position: absolute;
+    font-size: 10vh;
+    top: 40vh;
+    width: 11vh;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    text-align: center;
+    background-color: pink;
+    cursor: default;
+
+}
