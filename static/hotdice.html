@@ -18,7 +18,25 @@
     
 <script>
 
+var diceAnimate=function(diceNum,outcome,iteration){
+    if (iteration==undefined){iteration=0}
+    //console.log(iteration);
+    if (iteration==10){
+        $("#d"+ diceNum).html(diceUnicode[outcome])
+    }
+    else{
+    iteration++;
+    $("#d"+ diceNum).html(diceUnicode[rollDice()]);
     
+    (function(diceNum, outcome, iteration){
+        setTimeout(function(){
+        diceAnimate(diceNum, outcome, iteration)
+        },50);
+    }(diceNum, outcome, iteration));
+        
+    }
+    
+}    
         
 $( document ).ready(function() {
     var totalDice=6;
@@ -28,9 +46,18 @@ $( document ).ready(function() {
     for (var i=0; i<totalDice; i++){
         outcome=rollDice();
         currentRoll.push(outcome);
-        $("#diceholder").append('<div id="d' + i+ '"class="dice" style="left:' + (40+ (i*15)) + 'vh">' + diceUnicode[outcome] + '</div>')
+        $("#diceholder").append('<div id="d' + i+ '"class="dice" style="left:' + (40+ (i*15)) + 'vh">' +  '</div>');
+        
+        
+        (function(i,outcome){
+            setTimeout(function(){
+                console.log(i,outcome);    
+                diceAnimate(i,outcome);
+            },i*100);
+        }(i,outcome));
+
     }
-    
+    console.log(currentRoll);
     
     $( ".dice" ).on( "click", function() {
         var whichDice=($( this ).attr('id').substring(1));

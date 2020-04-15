@@ -12,10 +12,10 @@
 }
 #console {
     position: absolute;
-    font-size: 13vh;
+    font-size: 10vh;
     font-family: "Arial";
     top: 20vh;
-    left:80vw;
+    left:70vw;
     padding: 0;
     margin: 0;
     border: 0;
