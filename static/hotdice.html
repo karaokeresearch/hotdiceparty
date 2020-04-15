@@ -14,12 +14,17 @@
 
 <body>
 
+<div id="console">0 ❌</div>    
+    
 <script>
+
+    
         
 $( document ).ready(function() {
     var totalDice=6;
     var outcome;
     currentRoll=[];
+    currentEval=[false,false,false,false,false,false]; //dice currently being evaluated
     for (var i=0; i<totalDice; i++){
         outcome=rollDice();
         currentRoll.push(outcome);
@@ -28,9 +33,30 @@ $( document ).ready(function() {
     
     
     $( ".dice" ).on( "click", function() {
-        $( this ).animate({top: "80vh"},500);        
         var whichDice=($( this ).attr('id').substring(1));
         console.log("dice " + whichDice + ": " + currentRoll[whichDice]);
+        
+        if(currentEval[whichDice]==false ){
+            currentEval[whichDice]=true;        
+            $( this ).animate({top: "80vh"},500);
+        }else{
+            currentEval[whichDice]=false;        
+            $( this ).animate({top: "40vh"},500);
+        }
+        
+        var evalArr=[];
+        for (var i=0; i<6; i++){
+            if (currentEval[i]==true){
+            evalArr.push(currentRoll[i])    
+            }
+        }
+        var evalResults=evalPoints(evalArr);
+        //console.log(evalResults);
+        var scoring='❌';
+        if (evalResults.scoringDice==evalArr.length && evalArr.length>0){
+           scoring='✅'; 
+        }
+        $("#console").html(evalResults.points + " " + scoring );
     });
     
     
