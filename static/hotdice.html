@@ -18,14 +18,19 @@
         
 $( document ).ready(function() {
     var totalDice=6;
+    var outcome;
+    currentRoll=[];
     for (var i=0; i<totalDice; i++){
-        $("#diceholder").append('<div id="d ' + i+ '"class="dice" style="left:' + (40+ (i*15)) + 'vh">' + diceUnicode[rollDice()] + '</div>')
+        outcome=rollDice();
+        currentRoll.push(outcome);
+        $("#diceholder").append('<div id="d' + i+ '"class="dice" style="left:' + (40+ (i*15)) + 'vh">' + diceUnicode[outcome] + '</div>')
     }
     
     
     $( ".dice" ).on( "click", function() {
-        $( this ).animate({top: "80vh"},500);
-        console.log($( this ));
+        $( this ).animate({top: "80vh"},500);        
+        var whichDice=($( this ).attr('id').substring(1));
+        console.log("dice " + whichDice + ": " + currentRoll[whichDice]);
     });
     
     
