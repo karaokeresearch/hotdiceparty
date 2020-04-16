@@ -18,6 +18,33 @@
     
 <script>
 
+    
+var totalDice=6;
+var outcome;
+var currentRoll=[];
+var diceEval=[]; //dice currently being evaluated
+var evalPitSpaces=["empty","empty","empty","empty","empty","empty"]; //spaces in the eval pit for moving dice for evaluation
+
+var lowestOpenPitSpot=function(){
+    for (var i=0; i<6; i++){
+        if(evalPitSpaces[i]=="empty"){
+            
+             break;
+        }
+    }
+return(i);
+}
+
+var removeFromPit=function(whichDice){
+    for (var i=0; i<6; i++){
+        if(evalPitSpaces[i]==whichDice){
+        evalPitSpaces[i]="empty";
+        }
+    }
+}
+
+
+
 var diceAnimate=function(diceNum,outcome,iteration){
     if (iteration==undefined){iteration=0}
     //console.log(iteration);
@@ -37,12 +64,16 @@ var diceAnimate=function(diceNum,outcome,iteration){
     }
     
 }    
+
+var beingEvaluated=function(diceNum){
+    var toReturn=false;
+    for (var i=0; i<diceEval.length; i++)   {
+        if (diceEval[i]==diceNum){toReturn=true;}
+    }
+    return toReturn;
+}
         
 $( document ).ready(function() {
-    var totalDice=6;
-    var outcome;
-    currentRoll=[];
-    currentEval=[false,false,false,false,false,false]; //dice currently being evaluated
     for (var i=0; i<totalDice; i++){
         outcome=rollDice();
         currentRoll.push(outcome);
@@ -60,27 +91,32 @@ $( document ).ready(function() {
     console.log(currentRoll);
     
     $( ".dice" ).on( "click", function() {
-        var whichDice=($( this ).attr('id').substring(1));
+        var whichDice=parseInt(($( this ).attr('id').substring(1)));
         console.log("dice " + whichDice + ": " + currentRoll[whichDice]);
         
-        if(currentEval[whichDice]==false ){
-            currentEval[whichDice]=true;        
-            $( this ).animate({top: "80vh"},300);
-        }else{
-            currentEval[whichDice]=false;        
-            $( this ).animate({top: "40vh"},300);
+        if(diceEval.includes(whichDice)==false ){ //is it not in the eval pit?
+            diceEval.push(whichDice);
+            var openSlot=lowestOpenPitSpot();
+            evalPitSpaces[openSlot]=whichDice;
+            $( this ).animate({left:(5 + (openSlot *15)) + "vh",top: "80vh"},300);
+            
+        }else{                              //it's already in the eval pit
+            diceEval = diceEval.filter(dice => dice!=whichDice);
+            removeFromPit(whichDice);
+            $( this ).animate({left: (40+ (whichDice*15)) +"vh", top: "40vh"},300);
         }
         
-        var evalArr=[];
+        var evalValues=[];
         for (var i=0; i<6; i++){
-            if (currentEval[i]==true){
-            evalArr.push(currentRoll[i])    
+            if (diceEval.includes(i)){
+            evalValues.push(currentRoll[i])    
             }
         }
-        var evalResults=evalPoints(evalArr);
+        console.log(evalValues);
+        var evalResults=evalPoints(evalValues);
         //console.log(evalResults);
         var scoring='❌';
-        if (evalResults.scoringDice==evalArr.length && evalArr.length>0){
+        if (evalResults.scoringDice==evalValues.length && evalValues.length>0){
            scoring='✅'; 
         }
         $("#console").html(evalResults.points + " " + scoring );
