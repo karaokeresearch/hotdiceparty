@@ -21,7 +21,7 @@
 var diceAnimate=function(diceNum,outcome,iteration){
     if (iteration==undefined){iteration=0}
     //console.log(iteration);
-    if (iteration==10){
+    if (iteration==7){
         $("#d"+ diceNum).html(diceUnicode[outcome])
     }
     else{
@@ -31,7 +31,7 @@ var diceAnimate=function(diceNum,outcome,iteration){
     (function(diceNum, outcome, iteration){
         setTimeout(function(){
         diceAnimate(diceNum, outcome, iteration)
-        },50);
+        },30);
     }(diceNum, outcome, iteration));
         
     }
@@ -65,10 +65,10 @@ $( document ).ready(function() {
         
         if(currentEval[whichDice]==false ){
             currentEval[whichDice]=true;        
-            $( this ).animate({top: "80vh"},500);
+            $( this ).animate({top: "80vh"},300);
         }else{
             currentEval[whichDice]=false;        
-            $( this ).animate({top: "40vh"},500);
+            $( this ).animate({top: "40vh"},300);
         }
         
         var evalArr=[];
