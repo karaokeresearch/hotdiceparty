@@ -1,8 +1,8 @@
 .dice {
     position: absolute;
-    font-size: 13vh;
-    top: 40vh;
-    width: 11vh;
+    font-size: 11vw;
+    top: 30vh;
+    
     padding: 0;
     margin: 0;
     border: 0;
@@ -13,10 +13,10 @@
 }
 #console {
     position: absolute;
-    font-size: 10vh;
+    font-size: 6vw;
     font-family: "Arial";
-    top: 20vh;
-    left:70vw;
+    top: 5vh;
+    left:80vw;
     padding: 0;
     margin: 0;
     border: 0;

@@ -46,9 +46,10 @@ var removeFromPit=function(whichDice){
 
 
 var diceAnimate=function(diceNum,outcome,iteration){
+    
     if (iteration==undefined){iteration=0}
     //console.log(iteration);
-    if (iteration==7){
+    if (iteration==20){
         $("#d"+ diceNum).html(diceUnicode[outcome])
     }
     else{
@@ -77,13 +78,16 @@ $( document ).ready(function() {
     for (var i=0; i<totalDice; i++){
         outcome=rollDice();
         currentRoll.push(outcome);
-        $("#diceholder").append('<div id="d' + i+ '"class="dice" style="left:' + (40+ (i*15)) + 'vh">' +  '</div>');
+        $("#diceholder").append('<div id="d' + i+ '"class="dice" style="left:' + (20+ (i*10)) + 'vw">' +  '</div>');
         
-        
+        $("#d"+ i).css({left:"90vw",top: "-20vh"});
         (function(i,outcome){
             setTimeout(function(){
-                console.log(i,outcome);    
+                
                 diceAnimate(i,outcome);
+                $("#d"+ i).animate({left: (20+ (i*10)) +"vw", top: "30vh"},400);  
+                
+                
             },i*100);
         }(i,outcome));
 
@@ -98,12 +102,12 @@ $( document ).ready(function() {
             diceEval.push(whichDice);
             var openSlot=lowestOpenPitSpot();
             evalPitSpaces[openSlot]=whichDice;
-            $( this ).animate({left:(5 + (openSlot *15)) + "vh",top: "80vh"},300);
+            $( this ).animate({left:(5 + (openSlot *10)) + "vw",top: "75vh"},300);
             
         }else{                              //it's already in the eval pit
             diceEval = diceEval.filter(dice => dice!=whichDice);
             removeFromPit(whichDice);
-            $( this ).animate({left: (40+ (whichDice*15)) +"vh", top: "40vh"},300);
+            $( this ).animate({left: (20+ (whichDice*10)) +"vw", top: "30vh"},300);
         }
         
         var evalValues=[];
