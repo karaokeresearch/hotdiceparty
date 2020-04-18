@@ -33,7 +33,7 @@
 }
 
 .rotate {
-  animation: rotation .4s;
+  animation: ease-out rotation 0.4s;
 }
 
 @keyframes rotation {
