@@ -14,7 +14,10 @@
 
 <body>
 
-<div id="console">0 ❌</div>    
+<div id="console"><span id="score">0 ❌</span>
+<br><button id="roll"  class="bigbutton" disabled>Roll</button>
+<br><button id="end" class="bigbutton" disabled>End turn</button>
+</div>    
     
 <script>
 
@@ -119,11 +122,17 @@ $( document ).ready(function() {
         console.log(evalValues);
         var evalResults=evalPoints(evalValues);
         //console.log(evalResults);
-        var scoring='❌';
+        var scoring;
         if (evalResults.scoringDice==evalValues.length && evalValues.length>0){
-           scoring='✅'; 
+           scoring='✅';
+           $('.bigbutton').prop('disabled', false);
+        }else{
+            scoring='❌';
+           $('.bigbutton').prop('disabled', true);
+            
         }
-        $("#console").html(evalResults.points + " " + scoring );
+        
+        $("#score").html(evalResults.points + " " + scoring );
     });
     
     
