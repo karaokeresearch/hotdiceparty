@@ -23,7 +23,8 @@
 
     
 var totalDice=6;
-var outcome;
+var outcome; //not sure if this should be a global variable… fix later.
+var scoring; //are we scoring
 var currentRoll=[];
 var diceEval=[]; //dice currently being evaluated
 var evalPitSpaces=["empty","empty","empty","empty","empty","empty"]; //spaces in the eval pit for moving dice for evaluation
@@ -52,7 +53,7 @@ var diceAnimate=function(diceNum,outcome,iteration){
     
     if (iteration==undefined){iteration=0}
     //console.log(iteration);
-    if (iteration==20){
+    if (iteration==10){
         $("#d"+ diceNum).html(diceUnicode[outcome])
     }
     else{
@@ -62,7 +63,7 @@ var diceAnimate=function(diceNum,outcome,iteration){
     (function(diceNum, outcome, iteration){
         setTimeout(function(){
         diceAnimate(diceNum, outcome, iteration)
-        },30);
+        },40);
     }(diceNum, outcome, iteration));
         
     }
@@ -88,6 +89,7 @@ $( document ).ready(function() {
             setTimeout(function(){
                 
                 diceAnimate(i,outcome);
+                $("#d"+ i).addClass( "rotate" );
                 $("#d"+ i).animate({left: (20+ (i*10)) +"vw", top: "30vh"},400);  
                 
                 
@@ -122,7 +124,7 @@ $( document ).ready(function() {
         console.log(evalValues);
         var evalResults=evalPoints(evalValues);
         //console.log(evalResults);
-        var scoring;
+        
         if (evalResults.scoringDice==evalValues.length && evalValues.length>0){
            scoring='✅';
            $('.bigbutton').prop('disabled', false);

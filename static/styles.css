@@ -31,3 +31,16 @@
     cursor: default;
 
 }
+
+.rotate {
+  animation: rotation .4s;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
